@@ -92,28 +92,7 @@ exports.postNewCmsPageData = (req,res)=>{
     Cms.findOne( { title : newpageData.title , isDeleted : false } ).then(
         titleexists=>{
             if(titleexists){
-                return res.status(400).json({message : 'Title already exists,try creating page with another title.'})                
-
-                // Cms.findOne({ title : newpageData.title , isDeleted : true }).then(
-                //     pagenotexists=>{
-                //         if(pagenotexists){
-                //             Cms.create( newpageData ).then(
-                //                 cms=>{
-                //                     if(cms){
-                //                         console.log(cms);
-                //                         return res.status(200).json({ success : 'New cms page added successfully.' });
-                //                     }
-                //                     else{
-                //                         return res.status(400).json({ error : 'Something went wrong.' });
-                //                     }
-                //                 }
-                //             )
-                //         }
-                //         else{
-                //             return res.status(400).json({error : 'Title already exists,try creating page with another title.'})
-                //         }
-                //     }
-                // )
+                return res.status(400).json({message : 'Title already exists,try creating page with another title.'});
             }
             else{
                 Cms.create( newpageData ).then(
