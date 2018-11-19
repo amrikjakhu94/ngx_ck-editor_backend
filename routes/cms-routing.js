@@ -14,4 +14,8 @@ router.post('/postnewcmspagedata',cms_controller.postNewCmsPageData);
 
 router.post('/posteditcmspagedata/:id',cms_controller.postEditCmsPageData);
 
+router.delete('/deletecmspage/:id',cms_controller.deleteCmsPage);
+
+router.get('/getcmspagesfrompaginate/:page/:limit',cms_controller.getCmsPagesFromPaginate);
+
 module.exports = router;
