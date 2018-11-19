@@ -20,7 +20,7 @@ exports.getCmsPagesFromPaginate = (req,res)=>{
     Cms.find({isDeleted : false}).skip((page*Limit) - Limit).limit(Limit).then(
         cmspages=>{
             if(cmspages){
-                Cms.count().then(
+                Cms.count({isDeleted : false}).then(
                     (totalCount) => {
                         return res.status(200).json( { cmspages, totalCount : totalCount});
                    }
