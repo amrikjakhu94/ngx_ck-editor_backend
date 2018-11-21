@@ -114,13 +114,31 @@ exports.postNewCmsPageData = (req,res)=>{
 exports.postEditCmsPageData = (req,res)=>{
     let editPageData = req.body;
     let id = req.params.id;
-    Cms.findOneAndUpdate( { _id : id, isDeleted : false },{ $set :  editPageData } ).then(
-        update=>{
-            if(update){
-                return res.status(200).json({message : 'Page data updated successfully'});
+    let title = req.body.title;
+    let titlematch = false;
+    // console.log(id,'kkk');
+    Cms.find( { _id : { $ne : id } , isDeleted : false } ).select('title').then(
+        otherpages=>{
+            for(let i=0;i<otherpages.length;i++){
+                if(otherpages[i].title == title){
+                    titlematch = true;
+                    break;
+                }
             }
-            else{
-                return res.status(400).json({ message : 'Something went wrong.' });
+            if(titlematch == true){
+                res.status(400).json({ message : 'Page title already exists.' })
+            }
+            if(titlematch == false){
+                Cms.findOneAndUpdate( { _id : id, isDeleted : false },{ $set : editPageData } ).then(
+                    update=>{
+                        if(update){
+                            return res.status(200).json({message : 'Page data updated successfully'});
+                        }
+                        else{
+                            return res.status(400).json({ message : 'Something went wrong.' });
+                        }
+                    }
+                )
             }
         }
     )
